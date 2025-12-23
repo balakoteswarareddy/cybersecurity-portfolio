@@ -20,12 +20,12 @@ I have documented **6 comprehensive security investigations** covering diverse a
 
 | ID | Incident Title | Severity |
 |:---|:---------------|:---------|
-| **01** | [RDP Brute Force Attack](Reports/IR-2025-001.pdf) | 🔴 High |
-| **02** | [Suspicious C2 Network Activity via Typosquatted Binary](Reports/IR-2025-002.pdf) | 🔴 High |
-| **03** | [Backdoor Persistence in Linux](Reports/IR-2025-003.pdf) | 🟠 Medium |
-| **04** | [Suspicious Activity in Web Server](Reports/IR-2025-004.pdf) | 🔴 High | 
-| **05** | [Bruteforce Activity on Linux](Reports/IR-2025-005.pdf) | 🟠 Medium |
-| **06** | [Potential Task Scheduler Persistance](Reports/IR-2025-006.pdf) | 🔴 High | 
+| **01** | [RDP Brute Force Attack](Reports/IR-2025-001-RDP-Brute-Force-Attack.pdf) | 🔴 High |
+| **02** | [Suspicious C2 Network Activity via Typosquatted Binary](Reports/IR-2025-002-Suspicious-Network-Activity.pdf) | 🔴 High |
+| **03** | [Backdoor Persistence in Linux](Reports/IR-2025-003-Backdoor-Persistence.pdf) | 🟠 Medium |
+| **04** | [Suspicious Activity in Web Server](Reports/IR-2025-004-Suspicious-activity-in-Web-Server.pdf) | 🔴 High | 
+| **05** | [Bruteforce Activity on Linux](Reports/IR-2025-005-Brute-Force-Activity-Detection.pdf) | 🟠 Medium |
+| **06** | [Potential Task Scheduler Persistance](Reports/IR-2025-006-Potential-Task-Scheduler-Persistence.pdf) | 🔴 High | 
 
 ### 📊 Attack Coverage Matrix
 
