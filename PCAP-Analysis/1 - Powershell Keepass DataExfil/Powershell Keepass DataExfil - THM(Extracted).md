@@ -20,7 +20,8 @@ Capture End: 2023-08-29 8:01:50
 
 **Protocol hierarchy:**
 
-Sinec H1 protocol - 6 packets -- It is related to siemens ethernet industrial communication protocol
+Sinec H1 protocol - 6 packets -- It is related to siemens ethernet industrial communication protocol 
+Note: It is misidentified by wireshatk since traffic is over Non-standard ports. The traffic depicted as Sinec H1 is actually TCP/1338 Data Exfiltartion.
 
 tcp/http(80) - 2 packets
 
@@ -104,6 +105,7 @@ Malicious Script : xxxmmdcclxxxiv.ps1
 Tool Used : ProcDump(SysyInternals)
 
 User Agent : Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.17763.4720
+
 
 
 
