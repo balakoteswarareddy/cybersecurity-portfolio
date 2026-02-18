@@ -1,0 +1,1524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Name — SOC Analyst Portfolio</title>
+    <meta name="description" content="SOC Analyst Portfolio — SIEM, Incident Response, Threat Analysis, Log Analysis">
+    <style>
+        /* ============================================
+           CSS VARIABLES — Change these to customize
+           ============================================ */
+        :root {
+            --bg-primary: #0a0e17;
+            --bg-secondary: #111827;
+            --bg-card: #1a2332;
+            --bg-card-hover: #1f2b3d;
+            --accent-primary: #00d4aa;
+            --accent-secondary: #0ea5e9;
+            --accent-warning: #f59e0b;
+            --accent-danger: #ef4444;
+            --accent-purple: #a855f7;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-color: #1e293b;
+            --border-accent: #00d4aa33;
+            --font-main: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            --font-mono: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+            --max-width: 1100px;
+            --radius: 12px;
+            --shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        /* ============================================
+           RESET & BASE
+           ============================================ */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        a {
+            color: var(--accent-primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-secondary);
+        }
+
+        /* ============================================
+           ANIMATED BACKGROUND
+           ============================================ */
+        .bg-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.03;
+            background-image: 
+                linear-gradient(var(--accent-primary) 1px, transparent 1px),
+                linear-gradient(90deg, var(--accent-primary) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        /* ============================================
+           NAVIGATION
+           ============================================ */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 14, 23, 0.92);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            padding: 0 20px;
+        }
+
+        .nav-container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .nav-logo {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-logo .logo-icon {
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 8px;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--accent-primary);
+            background: rgba(0, 212, 170, 0.08);
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* ============================================
+           MAIN CONTAINER
+           ============================================ */
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        .section-label {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--accent-primary);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-label::before {
+            content: '';
+            width: 30px;
+            height: 2px;
+            background: var(--accent-primary);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            line-height: 1.3;
+        }
+
+        .section-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            max-width: 650px;
+            margin-bottom: 40px;
+        }
+
+        /* ============================================
+           HERO SECTION
+           ============================================ */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding-top: 70px;
+        }
+
+        .hero-content {
+            max-width: 750px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 212, 170, 0.08);
+            border: 1px solid rgba(0, 212, 170, 0.2);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: var(--accent-primary);
+            margin-bottom: 24px;
+            font-family: var(--font-mono);
+        }
+
+        .hero-badge .pulse {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.5); }
+        }
+
+        .hero h1 {
+            font-size: 3.2rem;
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 .gradient-text {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-description {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 36px;
+            max-width: 600px;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 36px;
+        }
+
+        .stat {
+            text-align: left;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            font-family: var(--font-mono);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 28px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-primary), #00b894);
+            color: var(--bg-primary);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 212, 170, 0.3);
+            color: var(--bg-primary);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+            transform: translateY(-2px);
+        }
+
+        /* ============================================
+           TERMINAL WIDGET (Hero Decoration)
+           ============================================ */
+        .hero-terminal {
+            position: absolute;
+            right: -50px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 380px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            display: none;
+        }
+
+        @media (min-width: 1200px) {
+            .hero-terminal { display: block; }
+        }
+
+        .terminal-header {
+            background: var(--bg-secondary);
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .terminal-dot.red { background: #ef4444; }
+        .terminal-dot.yellow { background: #f59e0b; }
+        .terminal-dot.green { background: #22c55e; }
+
+        .terminal-body {
+            padding: 16px;
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+        }
+
+        .terminal-body .prompt {
+            color: var(--accent-primary);
+        }
+
+        .terminal-body .command {
+            color: var(--text-primary);
+        }
+
+        .terminal-body .output {
+            color: var(--text-muted);
+        }
+
+        .terminal-body .highlight {
+            color: var(--accent-warning);
+        }
+
+        /* ============================================
+           SKILLS SECTION
+           ============================================ */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .skill-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 28px;
+            transition: all 0.3s ease;
+        }
+
+        .skill-card:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0, 212, 170, 0.1);
+        }
+
+        .skill-card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 16px;
+        }
+
+        .skill-card-icon.blue { background: rgba(14, 165, 233, 0.15); }
+        .skill-card-icon.green { background: rgba(0, 212, 170, 0.15); }
+        .skill-card-icon.purple { background: rgba(168, 85, 247, 0.15); }
+        .skill-card-icon.orange { background: rgba(245, 158, 11, 0.15); }
+        .skill-card-icon.red { background: rgba(239, 68, 68, 0.15); }
+        .skill-card-icon.teal { background: rgba(20, 184, 166, 0.15); }
+
+        .skill-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .skill-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .skill-tag {
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 6px;
+            background: rgba(0, 212, 170, 0.08);
+            color: var(--accent-primary);
+            font-family: var(--font-mono);
+            border: 1px solid rgba(0, 212, 170, 0.15);
+        }
+
+        /* ============================================
+           PROJECTS / INVESTIGATIONS
+           ============================================ */
+        .project-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 32px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .project-type {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            padding: 4px 12px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .project-type.investigation { 
+            background: rgba(239, 68, 68, 0.12); 
+            color: #f87171; 
+        }
+        .project-type.detection { 
+            background: rgba(245, 158, 11, 0.12); 
+            color: #fbbf24; 
+        }
+        .project-type.homelab { 
+            background: rgba(0, 212, 170, 0.12); 
+            color: var(--accent-primary); 
+        }
+        .project-type.automation { 
+            background: rgba(168, 85, 247, 0.12); 
+            color: #c084fc; 
+        }
+
+        .project-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 12px;
+        }
+
+        .project-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .project-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .meta-item {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .project-link {
+            font-size: 0.85rem;
+            padding: 6px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .project-link:hover {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+
+        /* ============================================
+           CERTIFICATIONS & TRAINING
+           ============================================ */
+        .cert-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .cert-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 24px;
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .cert-card:hover {
+            border-color: var(--accent-secondary);
+        }
+
+        .cert-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            background: rgba(14, 165, 233, 0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .cert-info h4 {
+            font-size: 0.95rem;
+            margin-bottom: 4px;
+        }
+
+        .cert-info p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .cert-info .cert-issuer {
+            color: var(--accent-secondary);
+            font-size: 0.8rem;
+        }
+
+        /* ============================================
+           EXPERIENCE TIMELINE
+           ============================================ */
+        .timeline {
+            position: relative;
+            padding-left: 32px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 8px;
+            bottom: 8px;
+            width: 2px;
+            background: var(--border-color);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 36px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -29px;
+            top: 8px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--accent-primary);
+            border: 3px solid var(--bg-primary);
+        }
+
+        .timeline-date {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--accent-primary);
+            margin-bottom: 6px;
+        }
+
+        .timeline-item h3 {
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+
+        .timeline-item .company {
+            color: var(--accent-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .timeline-item p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* ============================================
+           TOOLS SECTION
+           ============================================ */
+        .tools-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tool-badge {
+            padding: 8px 18px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-family: var(--font-mono);
+            transition: all 0.3s ease;
+        }
+
+        .tool-badge:hover {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+            background: rgba(0, 212, 170, 0.05);
+        }
+
+        .tool-badge.primary {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+            background: rgba(0, 212, 170, 0.06);
+        }
+
+        /* ============================================
+           BLOG / WRITE-UPS
+           ============================================ */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .blog-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 28px;
+            transition: all 0.3s ease;
+        }
+
+        .blog-card:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-3px);
+        }
+
+        .blog-card .blog-date {
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        .blog-card h3 {
+            font-size: 1.05rem;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .blog-card p {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
+        .blog-card .read-more {
+            font-size: 0.85rem;
+            color: var(--accent-primary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* ============================================
+           CONTACT SECTION
+           ============================================ */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+        }
+
+        .contact-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 24px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .contact-card:hover {
+            border-color: var(--accent-primary);
+        }
+
+        .contact-card .contact-icon {
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+        }
+
+        .contact-card h4 {
+            font-size: 0.95rem;
+            margin-bottom: 4px;
+        }
+
+        .contact-card p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* ============================================
+           FOOTER
+           ============================================ */
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 768px) {
+            .nav-links { 
+                display: none; 
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: rgba(10, 14, 23, 0.98);
+                flex-direction: column;
+                padding: 20px;
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            .nav-links.active { display: flex; }
+            .nav-toggle { display: block; }
+
+            .hero h1 { font-size: 2.2rem; }
+            .hero-stats { flex-wrap: wrap; gap: 24px; }
+            .section-title { font-size: 1.6rem; }
+            .hero-buttons { flex-direction: column; }
+            .btn { width: 100%; justify-content: center; }
+
+            .project-header { flex-direction: column; }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 1.8rem; }
+            .hero-description { font-size: 1rem; }
+            .skills-grid { grid-template-columns: 1fr; }
+            .cert-grid { grid-template-columns: 1fr; }
+            .blog-grid { grid-template-columns: 1fr; }
+            .contact-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Grid -->
+    <div class="bg-grid"></div>
+
+    <!-- ==========================================
+         NAVIGATION
+         ========================================== -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <div class="logo-icon">🛡️</div>
+                <!-- CHANGE: Your name below -->
+                <span>Your Name</span>
+            </div>
+
+            <button class="nav-toggle" onclick="toggleNav()">☰</button>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#about" class="active">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Investigations</a></li>
+                <li><a href="#homelab">Home Lab</a></li>
+                <li><a href="#certifications">Certifications</a></li>
+                <li><a href="#blog">Write-ups</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ==========================================
+         HERO SECTION
+         ========================================== -->
+    <section class="hero" id="about">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="pulse"></span>
+                    Open to SOC Analyst Opportunities
+                </div>
+
+                <!-- CHANGE: Your name and title below -->
+                <h1>
+                    Hi, I'm <span class="gradient-text">Your Name</span><br>
+                    SOC Analyst
+                </h1>
+
+                <!-- CHANGE: Your description below -->
+                <p class="hero-description">
+                    Security Operations Center analyst with hands-on experience in 
+                    SIEM operations, alert triage, incident investigation, and threat 
+                    analysis. Built a complete SOC home lab with Splunk, Wazuh, and 
+                    Sysmon. Proficient in log analysis, phishing investigation, and 
+                    malware traffic analysis. ECE graduate with a passion for defending 
+                    organizations against cyber threats.
+                </p>
+
+                <!-- CHANGE: Your actual numbers below -->
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-value">15+</div>
+                        <div class="stat-label">Alerts Triaged</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">5+</div>
+                        <div class="stat-label">PCAP Analyses</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">4</div>
+                        <div class="stat-label">CTF Challenges</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">10+</div>
+                        <div class="stat-label">Detection Rules</div>
+                    </div>
+                </div>
+
+                <div class="hero-buttons">
+                    <!-- CHANGE: Your resume link below -->
+                    <a href="resume.pdf" class="btn btn-primary" target="_blank">
+                        📄 Download Resume
+                    </a>
+                    <!-- CHANGE: Your GitHub link below -->
+                    <a href="https://github.com/yourusername" class="btn btn-secondary" target="_blank">
+                        💻 GitHub Portfolio
+                    </a>
+                </div>
+            </div>
+
+            <!-- Terminal Widget (decorative) -->
+            <div class="hero-terminal">
+                <div class="terminal-header">
+                    <div class="terminal-dot red"></div>
+                    <div class="terminal-dot yellow"></div>
+                    <div class="terminal-dot green"></div>
+                </div>
+                <div class="terminal-body">
+                    <span class="prompt">analyst@soc:~$</span> <span class="command">splunk search</span><br>
+                    <span class="output">index=main sourcetype=WinEventLog</span><br>
+                    <span class="output">EventCode=4625 | stats count by src_ip</span><br>
+                    <span class="output">| where count > 20</span><br><br>
+                    <span class="prompt">analyst@soc:~$</span> <span class="command">results</span><br>
+                    <span class="highlight">⚠ 3 IPs flagged for brute force</span><br>
+                    <span class="output">192.168.1.105 — 847 attempts</span><br>
+                    <span class="output">10.0.0.42 — 234 attempts</span><br>
+                    <span class="output">172.16.5.18 — 156 attempts</span><br><br>
+                    <span class="prompt">analyst@soc:~$</span> <span class="command">investigate</span><br>
+                    <span class="highlight">✓ Alert escalated to L2</span><br>
+                    <span class="highlight">✓ IOCs documented</span><br>
+                    <span class="highlight">✓ Source IP blocked</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         SKILLS SECTION
+         ========================================== -->
+    <section id="skills">
+        <div class="container">
+            <div class="section-label">Core Competencies</div>
+            <h2 class="section-title">Skills & Expertise</h2>
+            <p class="section-subtitle">
+                Hands-on proficiency in SOC tools and methodologies, 
+                built through lab environments, CTF challenges, and 
+                simulated investigations.
+            </p>
+
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <div class="skill-card-icon blue">📊</div>
+                    <h3>SIEM Operations</h3>
+                    <p>Proficient in querying, correlating, and analyzing security events across multiple SIEM platforms.</p>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Splunk (SPL)</span>
+                        <span class="skill-tag">Elastic SIEM (KQL)</span>
+                        <span class="skill-tag">Microsoft Sentinel</span>
+                        <span class="skill-tag">Wazuh</span>
+                    </div>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-card-icon green">🔍</div>
+                    <h3>Incident Investigation</h3>
+                    <p>Alert triage, true/false positive determination, incident documentation, and escalation procedures.</p>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Alert Triage</span>
+                        <span class="skill-tag">MITRE ATT&CK</span>
+                        <span class="skill-tag">Incident Response</span>
+                        <span class="skill-tag">Kill Chain Analysis</span>
+                    </div>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-card-icon purple">🌐</div>
+                    <h3>Network Analysis</h3>
+                    <p>Packet capture analysis, malicious traffic identification, DNS investigation, and protocol analysis.</p>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Wireshark</span>
+                        <span class="skill-tag">Zeek</span>
+                        <span class="skill-tag">PCAP Analysis</span>
+                        <span class="skill-tag">DNS Analysis</span>
+                    </div>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-card-icon orange">🖥️</div>
+                    <h3>Endpoint Analysis</h3>
+                    <p>Windows event log analysis, Sysmon investigation, process tree analysis, and forensic artifact examination.</p>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Windows Event Logs</span>
+                        <span class="skill-tag">Sysmon</span>
+                        <span class="skill-tag">Volatility</span>
+                        <span class="skill-tag">Sysinternals</span>
+                    </div>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-card-icon red">🎣</div>
+                    <h3>Phishing Analysis</h3>
+                    <p>Email header analysis, URL reputation checking, attachment sandboxing, and IOC extraction.</p>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Email Headers</span>
+                        <span class="skill-tag">VirusTotal</span>
+                        <span class="skill-tag">Any.Run</span>
+                        <span class="skill-tag">URLScan.io</span>
+                    </div>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-card-icon teal">🐍</div>
+                    <h3>Scripting & Automation</h3>
+                    <p>Python and Bash scripts for IOC checking, log parsing, and automating repetitive SOC tasks.</p>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">Bash</span>
+                        <span class="skill-tag">YARA Rules</span>
+                        <span class="skill-tag">Automation</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         PROJECTS / INVESTIGATIONS
+         ========================================== -->
+    <section id="projects">
+        <div class="container">
+            <div class="section-label">Hands-On Work</div>
+            <h2 class="section-title">Investigations & Projects</h2>
+            <p class="section-subtitle">
+                Real investigation challenges and projects demonstrating 
+                practical SOC analyst capabilities.
+            </p>
+
+            <!-- CHANGE: Add your actual projects below -->
+
+            <div class="project-card">
+                <div class="project-header">
+                    <span class="project-type investigation">Investigation</span>
+                    <div class="project-meta">
+                        <span class="meta-item">🛠️ Splunk</span>
+                        <span class="meta-item">📅 2025</span>
+                    </div>
+                </div>
+                <h3>Splunk BOTS v1 — Web Attack & Ransomware Investigation</h3>
+                <p>
+                    Investigated a simulated enterprise compromise using Splunk Boss of the SOC dataset. 
+                    Traced attacker activity from initial web server reconnaissance through exploitation, 
+                    lateral movement, and ransomware deployment. Identified all IOCs and mapped the full 
+                    attack chain to MITRE ATT&CK techniques.
+                </p>
+                <div class="skill-tags" style="margin-bottom: 16px;">
+                    <span class="skill-tag">SPL Queries</span>
+                    <span class="skill-tag">Web Attack Analysis</span>
+                    <span class="skill-tag">IOC Extraction</span>
+                    <span class="skill-tag">ATT&CK Mapping</span>
+                </div>
+                <div class="project-links">
+                    <!-- CHANGE: Your actual links -->
+                    <a href="#" class="project-link">📄 Full Write-up</a>
+                    <a href="#" class="project-link">💻 GitHub</a>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-header">
+                    <span class="project-type investigation">Investigation</span>
+                    <div class="project-meta">
+                        <span class="meta-item">🛠️ Wireshark</span>
+                        <span class="meta-item">📅 2025</span>
+                    </div>
+                </div>
+                <h3>Malware Traffic Analysis — C2 Communication & Data Exfiltration</h3>
+                <p>
+                    Analyzed PCAP files from malware-traffic-analysis.net to identify infection vectors, 
+                    command-and-control communication patterns, and data exfiltration attempts. Extracted 
+                    malicious payloads, identified C2 server IPs, and documented the complete infection chain.
+                </p>
+                <div class="skill-tags" style="margin-bottom: 16px;">
+                    <span class="skill-tag">Wireshark</span>
+                    <span class="skill-tag">PCAP Analysis</span>
+                    <span class="skill-tag">C2 Detection</span>
+                    <span class="skill-tag">Malware Analysis</span>
+                </div>
+                <div class="project-links">
+                    <a href="#" class="project-link">📄 Full Write-up</a>
+                    <a href="#" class="project-link">💻 GitHub</a>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-header">
+                    <span class="project-type detection">Detection Engineering</span>
+                    <div class="project-meta">
+                        <span class="meta-item">🛠️ Splunk + YARA</span>
+                        <span class="meta-item">📅 2025</span>
+                    </div>
+                </div>
+                <h3>Custom Detection Rules — Brute Force, PowerShell & Lateral Movement</h3>
+                <p>
+                    Created 10+ custom Splunk correlation rules and YARA signatures for detecting 
+                    common attack techniques including brute force authentication, encoded PowerShell 
+                    execution, suspicious service installation, and lateral movement via PsExec. 
+                    Each rule mapped to MITRE ATT&CK techniques with documented response procedures.
+                </p>
+                <div class="skill-tags" style="margin-bottom: 16px;">
+                    <span class="skill-tag">SPL Correlation</span>
+                    <span class="skill-tag">YARA Rules</span>
+                    <span class="skill-tag">ATT&CK Mapping</span>
+                    <span class="skill-tag">Detection Logic</span>
+                </div>
+                <div class="project-links">
+                    <a href="#" class="project-link">📄 Rule Documentation</a>
+                    <a href="#" class="project-link">💻 GitHub</a>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-header">
+                    <span class="project-type automation">Automation</span>
+                    <div class="project-meta">
+                        <span class="meta-item">🛠️ Python</span>
+                        <span class="meta-item">📅 2025</span>
+                    </div>
+                </div>
+                <h3>SOC Automation Scripts — IOC Checker & Log Parser</h3>
+                <p>
+                    Developed Python scripts to automate repetitive SOC tasks: bulk IP/hash checking 
+                    against VirusTotal API, automated log parsing for failed authentication events, 
+                    and a Bash-based quick log analyzer for initial triage. Each script includes 
+                    documentation and usage examples.
+                </p>
+                <div class="skill-tags" style="margin-bottom: 16px;">
+                    <span class="skill-tag">Python</span>
+                    <span class="skill-tag">Bash</span>
+                    <span class="skill-tag">VirusTotal API</span>
+                    <span class="skill-tag">Log Parsing</span>
+                </div>
+                <div class="project-links">
+                    <a href="#" class="project-link">💻 GitHub Repository</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         HOME LAB SECTION
+         ========================================== -->
+    <section id="homelab" style="background: var(--bg-secondary);">
+        <div class="container">
+            <div class="section-label">Infrastructure</div>
+            <h2 class="section-title">SOC Home Lab</h2>
+            <p class="section-subtitle">
+                Built a complete security monitoring environment with SIEM, 
+                EDR, and attack simulation capabilities.
+            </p>
+
+            <div class="project-card" style="background: var(--bg-primary);">
+                <div class="project-header">
+                    <span class="project-type homelab">Home Lab</span>
+                </div>
+                <h3>Complete SOC Monitoring Environment</h3>
+                <p>
+                    Designed and deployed a full security operations lab using VirtualBox with 
+                    Windows 10 (victim endpoint with Sysmon), Ubuntu Server, and Splunk/Wazuh 
+                    as SIEM. Configured log forwarding, built detection rules, and validated 
+                    detections using Atomic Red Team attack simulations mapped to MITRE ATT&CK.
+                </p>
+
+                <!-- CHANGE: Your actual architecture description -->
+                <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; margin: 20px 0; font-family: var(--font-mono); font-size: 0.82rem; line-height: 2; color: var(--text-secondary);">
+                    <span style="color: var(--accent-primary);">## Architecture</span><br>
+                    ├── <span style="color: var(--accent-warning);">Windows 10 VM</span> — Sysmon + Splunk Universal Forwarder<br>
+                    ├── <span style="color: var(--accent-warning);">Ubuntu Server</span> — Target + Wazuh Agent<br>
+                    ├── <span style="color: var(--accent-primary);">Splunk Enterprise</span> — SIEM (500MB/day free)<br>
+                    ├── <span style="color: var(--accent-primary);">Wazuh Manager</span> — EDR + HIDS<br>
+                    ├── <span style="color: var(--accent-danger);">Atomic Red Team</span> — Attack Simulation<br>
+                    └── <span style="color: var(--accent-secondary);">Custom Detection Rules</span> — 10+ rules with ATT&CK mapping<br><br>
+                    <span style="color: var(--accent-primary);">## Detection Coverage</span><br>
+                    ✓ Brute Force (T1110) &nbsp; ✓ PowerShell Abuse (T1059.001)<br>
+                    ✓ Scheduled Tasks (T1053) &nbsp; ✓ Account Creation (T1136)<br>
+                    ✓ Service Installation (T1543) &nbsp; ✓ Log Clearing (T1070)
+                </div>
+
+                <div class="project-links">
+                    <a href="#" class="project-link">📄 Setup Guide</a>
+                    <a href="#" class="project-link">📊 Detection Rules</a>
+                    <a href="#" class="project-link">💻 GitHub</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         SOC DOCUMENTATION
+         ========================================== -->
+    <section id="documentation">
+        <div class="container">
+            <div class="section-label">Documentation</div>
+            <h2 class="section-title">SOC Playbooks & Reports</h2>
+            <p class="section-subtitle">
+                Professional-grade security documentation demonstrating 
+                structured investigation and communication skills.
+            </p>
+
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <div class="skill-card-icon red">📋</div>
+                    <h3>Incident Report Sample</h3>
+                    <p>Formal incident report following industry-standard format with timeline, IOCs, MITRE mapping, and response actions.</p>
+                    <div class="project-links" style="margin-top: 12px;">
+                        <a href="#" class="project-link">📄 View Report</a>
+                    </div>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-card-icon orange">📑</div>
+                    <h3>Phishing Response Playbook</h3>
+                    <p>Step-by-step SOC playbook for phishing email triage including header analysis, URL/attachment investigation, and containment.</p>
+                    <div class="project-links" style="margin-top: 12px;">
+                        <a href="#" class="project-link">📄 View Playbook</a>
+                    </div>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-card-icon blue">📊</div>
+                    <h3>ATT&CK Mapping Example</h3>
+                    <p>Real-world attack report mapped to MITRE ATT&CK techniques with visual timeline and detection opportunities.</p>
+                    <div class="project-links" style="margin-top: 12px;">
+                        <a href="#" class="project-link">📄 View Mapping</a>
+                    </div>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-card-icon green">📝</div>
+                    <h3>Cheat Sheets Collection</h3>
+                    <p>Quick-reference guides for Windows Event IDs, SPL queries, Linux log commands, and Wireshark filters.</p>
+                    <div class="project-links" style="margin-top: 12px;">
+                        <a href="#" class="project-link">📄 View Cheat Sheets</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         TOOLS
+         ========================================== -->
+    <section id="tools" style="background: var(--bg-secondary);">
+        <div class="container">
+            <div class="section-label">Technical Arsenal</div>
+            <h2 class="section-title">Tools & Technologies</h2>
+            <p class="section-subtitle">
+                Tools I use for security monitoring, investigation, and analysis.
+            </p>
+
+            <h3 style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 2px;">SIEM & Monitoring</h3>
+            <div class="tools-container" style="margin-bottom: 24px;">
+                <span class="tool-badge primary">Splunk</span>
+                <span class="tool-badge primary">Wazuh</span>
+                <span class="tool-badge">Elastic SIEM</span>
+                <span class="tool-badge">Microsoft Sentinel</span>
+            </div>
+
+            <h3 style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 2px;">Network Analysis</h3>
+            <div class="tools-container" style="margin-bottom: 24px;">
+                <span class="tool-badge primary">Wireshark</span>
+                <span class="tool-badge">Zeek</span>
+                <span class="tool-badge">NetworkMiner</span>
+                <span class="tool-badge">tcpdump</span>
+            </div>
+
+            <h3 style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 2px;">Threat Intelligence</h3>
+            <div class="tools-container" style="margin-bottom: 24px;">
+                <span class="tool-badge primary">VirusTotal</span>
+                <span class="tool-badge primary">MITRE ATT&CK</span>
+                <span class="tool-badge">AbuseIPDB</span>
+                <span class="tool-badge">AlienVault OTX</span>
+                <span class="tool-badge">Shodan</span>
+                <span class="tool-badge">URLScan.io</span>
+            </div>
+
+            <h3 style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 2px;">Endpoint & Forensics</h3>
+            <div class="tools-container" style="margin-bottom: 24px;">
+                <span class="tool-badge">Sysmon</span>
+                <span class="tool-badge">Volatility</span>
+                <span class="tool-badge">Sysinternals</span>
+                <span class="tool-badge">Any.Run</span>
+                <span class="tool-badge">Hybrid Analysis</span>
+            </div>
+
+            <h3 style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 2px;">Scripting & Platforms</h3>
+            <div class="tools-container">
+                <span class="tool-badge">Python</span>
+                <span class="tool-badge">Bash</span>
+                <span class="tool-badge">YARA</span>
+                <span class="tool-badge">Git</span>
+                <span class="tool-badge">Linux</span>
+                <span class="tool-badge">VirtualBox</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         CERTIFICATIONS
+         ========================================== -->
+    <section id="certifications">
+        <div class="container">
+            <div class="section-label">Credentials</div>
+            <h2 class="section-title">Certifications & Training</h2>
+
+            <!-- CHANGE: Your actual certifications -->
+            <div class="cert-grid">
+                <div class="cert-card">
+                    <div class="cert-icon">📜</div>
+                    <div class="cert-info">
+                        <h4>Splunk Fundamentals 1</h4>
+                        <p class="cert-issuer">Splunk Education</p>
+                        <p>SIEM fundamentals, SPL queries, dashboards</p>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">🏆</div>
+                    <div class="cert-info">
+                        <h4>TryHackMe — SOC Level 1 Path</h4>
+                        <p class="cert-issuer">TryHackMe</p>
+                        <p>Blue team rooms, investigation challenges</p>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">🎯</div>
+                    <div class="cert-info">
+                        <h4>LetsDefend — SOC Analyst</h4>
+                        <p class="cert-issuer">LetsDefend.io</p>
+                        <p>15+ alerts triaged in simulated SOC</p>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">🔵</div>
+                    <div class="cert-info">
+                        <h4>CyberDefenders — Blue Team</h4>
+                        <p class="cert-issuer">CyberDefenders.org</p>
+                        <p>4+ investigation challenges completed</p>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">🎓</div>
+                    <div class="cert-info">
+                        <!-- CHANGE: Your actual degree -->
+                        <h4>B.Tech — Electronics & Communication</h4>
+                        <p class="cert-issuer">Your University Name</p>
+                        <p>Graduated 2025</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         BLOG / WRITE-UPS
+         ========================================== -->
+    <section id="blog" style="background: var(--bg-secondary);">
+        <div class="container">
+            <div class="section-label">Knowledge Sharing</div>
+            <h2 class="section-title">Write-ups & Articles</h2>
+
+            <!-- CHANGE: Your actual blog posts -->
+            <div class="blog-grid">
+                <div class="blog-card">
+                    <div class="blog-date">June 2025</div>
+                    <h3>How I Built a SOC Home Lab from Scratch (Zero Budget)</h3>
+                    <p>Step-by-step guide to building a complete security monitoring environment using free tools.</p>
+                    <a href="#" class="read-more">Read Article →</a>
+                </div>
+
+                <div class="blog-card">
+                    <div class="blog-date">June 2025</div>
+                    <h3>My First Malware Traffic Analysis — Step by Step</h3>
+                    <p>Walkthrough of analyzing a malicious PCAP file, identifying C2 communication and extracting IOCs.</p>
+                    <a href="#" class="read-more">Read Article →</a>
+                </div>
+
+                <div class="blog-card">
+                    <div class="blog-date">May 2025</div>
+                    <h3>10 Splunk Queries Every SOC Analyst Should Know</h3>
+                    <p>Essential SPL queries for daily SOC operations covering brute force, PowerShell, and lateral movement detection.</p>
+                    <a href="#" class="read-more">Read Article →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         CONTACT
+         ========================================== -->
+    <section id="contact">
+        <div class="container">
+            <div class="section-label">Get in Touch</div>
+            <h2 class="section-title">Let's Connect</h2>
+            <p class="section-subtitle">
+                Open to SOC Analyst, Security Analyst, and Cybersecurity 
+                Analyst opportunities. Based in India, open to relocate.
+            </p>
+
+            <!-- CHANGE: Your actual contact info -->
+            <div class="contact-grid">
+                <a href="mailto:your.email@gmail.com" class="contact-card">
+                    <div class="contact-icon">📧</div>
+                    <h4>Email</h4>
+                    <p>your.email@gmail.com</p>
+                </a>
+
+                <a href="https://linkedin.com/in/yourprofile" target="_blank" class="contact-card">
+                    <div class="contact-icon">💼</div>
+                    <h4>LinkedIn</h4>
+                    <p>linkedin.com/in/yourprofile</p>
+                </a>
+
+                <a href="https://github.com/yourusername" target="_blank" class="contact-card">
+                    <div class="contact-icon">💻</div>
+                    <h4>GitHub</h4>
+                    <p>github.com/yourusername</p>
+                </a>
+
+                <a href="https://tryhackme.com/p/yourusername" target="_blank" class="contact-card">
+                    <div class="contact-icon">🎯</div>
+                    <h4>TryHackMe</h4>
+                    <p>tryhackme.com/p/yourusername</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         FOOTER
+         ========================================== -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2025 Your Name — Built with 🛡️ and determination</p>
+            <p style="margin-top: 8px; font-size: 0.78rem;">
+                SOC Analyst | Incident Response | Threat Analysis | SIEM Operations
+            </p>
+        </div>
+    </footer>
+
+    <!-- ==========================================
+         JAVASCRIPT
+         ========================================== -->
+    <script>
+        // Mobile Navigation Toggle
+        function toggleNav() {
+            document.getElementById('navLinks').classList.toggle('active');
+        }
+
+        // Close mobile nav when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navLinks').classList.remove('active');
+            });
+        });
+
+        // Active nav link on scroll
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-links a');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                if (window.scrollY >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Smooth reveal on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.skill-card, .project-card, .cert-card, .blog-card, .contact-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'all 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+
+</body>
+</html>
